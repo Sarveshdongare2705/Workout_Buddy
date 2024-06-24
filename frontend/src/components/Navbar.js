@@ -1,14 +1,37 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
+
 const Navbar = () => {
-    return (
-        <header>
-            <div className="container">
-                <Link to='/'>
-                <h2>Workout Buddy</h2>
-                </Link>
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
+  const handleClick = () => {
+    logout();
+  };
+
+  return (
+    <header>
+      <div className="container">
+        <Link to="/">
+          <h1>Workout Buddy</h1>
+        </Link>
+        <nav>
+          {user && (
+            <dvi>
+              <span>{user.email}</span>
+              <button onClick={handleClick}>Logout</button>
+            </dvi>
+          )}
+          {!user && (
+            <div>
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Signup</Link>
             </div>
-        </header>
-    )
-}
+          )}
+        </nav>
+      </div>
+    </header>
+  );
+};
 
 export default Navbar;
